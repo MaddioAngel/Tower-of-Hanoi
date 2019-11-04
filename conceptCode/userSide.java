@@ -19,6 +19,8 @@ public class userSide {
 		for (int i = numOfBlocks; i >= 1; i-- ) {
 			a.add(new blockObject(i)); //Stack a is the first peg and Stack c is the last peg
 		}
+
+		int userTries = 0;
 		
 		while(true) {
 			printPegs(a,b,c); //Prints all the pegs (method at line 82)
@@ -52,7 +54,7 @@ public class userSide {
 					System.out.println("Not Allowed");
 				}
 			
-			
+			userTries++;
 			if(checkForWin(a, b)) {
 				
 				break;
