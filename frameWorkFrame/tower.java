@@ -1,15 +1,8 @@
-package frameWork;
+package frameWorkFrame;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextArea;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 /**
  *
@@ -17,28 +10,25 @@ import javax.swing.JTextArea;
  */
 public class tower extends JFrame implements ActionListener,Runnable {
 
+  int n=6; // number of blocks
+  int fwidth=1000,fheight=600;
+  JButton start=new JButton("Start");
+  JButton exit=new JButton("EXit");
+  Rectangle []peg=new Rectangle[3];
+  Rectangle []disk=new Rectangle[n];
+  JLabel numof_moves=new JLabel("Number of Moves : ");
+  JLabel present_move=new JLabel("Present Move : ");
+  JTextArea title=new JTextArea();
+   
+  int [][]peg_capacity=new int[3][6];
+  int []h=new int[3];
+  int num,count=1;
+ 
+//Main runs the program
     public static void main(String[] args) {
-       tower toh=new tower();
-       toh.setVisible(true);
+       tower toh=new tower(); // Creates the frame
+       toh.setVisible(true); // Shows the frame
     }
-    
-    
-
-    int n=6;
-    int fwidth=1000,fheight=600;
-    JButton start=new JButton("Start");
-    JButton exit=new JButton("EXit");
-    Rectangle []peg=new Rectangle[3];
-    Rectangle []disk=new Rectangle[n];
-    JLabel numof_moves=new JLabel("Number of Moves : ");
-    JLabel present_move=new JLabel("Present Move : ");
-    JTextArea title=new JTextArea();
-     
-    int [][]peg_capacity=new int[3][6];
-    int []h=new int[3];
-    int num,count=1;
-   
-   
     
     
    Thread t=new Thread(this);
