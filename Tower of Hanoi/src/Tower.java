@@ -21,11 +21,12 @@ import java.awt.event.MouseMotionListener;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.BasicStroke;
+import java.awt.geom.RoundRectangle2D;
 
 public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     //MouseListener handles events when mouse is not in motion
     //MouseMotionListener handles events when the mouse is in motion
-    private Stack<Rectangle2D.Double> towerStack[]= new Stack[3];
+    private Stack<RoundRectangle2D.Double> towerStack[]= new Stack[3];
     private Stack<Color> colorOfDisk[] = new Stack[3];
     static final int panelWidth = 700;
     static final int panelHeight = 500; 
@@ -46,9 +47,10 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         Color diskColors[] = {Color.YELLOW, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.GRAY, Color.RED, 
             Color.DARK_GRAY,Color.CYAN, Color.BLUE, Color.GREEN,Color.MAGENTA}; //list of colors for disks
        
-        
+       
         for (int i = 0; i < n; i++) {
-            Rectangle2D.Double rec = new Rectangle2D.Double();
+            RoundRectangle2D.Double rec = new RoundRectangle2D.Double();
+            
             
             double x = panelWidth /6;	
             double y = panelHeight-100;
@@ -56,7 +58,8 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
                 x=150;
             double wr= n*25-20*i;
             System.out.println("wr: "+ wr);
-            rec.setFrame (x-wr/2,(y - 27)-i*20,wr,20);
+//            rec.setFrame(x-wr/2,(y - 27)-i*20,wr,20);
+            rec.setRoundRect(x-wr/2, (y - 27)-i*20, wr, 20, 25,25);
             towerStack[0].push(rec);
             colorOfDisk[0].push(diskColors[i]);
         }
