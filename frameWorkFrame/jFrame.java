@@ -1,16 +1,11 @@
 
-package frameWork;
-
 import java.awt.*;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.*;
-import javax.swing.GroupLayout;
+
+import java.awt.BorderLayout;
 
 public class jFrame extends JFrame{
     private JPanel backPanel = new JPanel();
@@ -53,22 +48,24 @@ public class jFrame extends JFrame{
         backPanel.add(Welcome,"welcome");
         backPanel.add(infoScreem, "info");
         backPanel.add(userScreen, "user");
+
         backPanel.add(HistoryScreen, "history");
 
         Welcome.setBackground(VERY_LIGHT_GRAY);
         infoScreem.setBackground(VERY_LIGHT_GRAY);
         userScreen.setBackground(VERY_LIGHT_GRAY);
         HistoryScreen.setBackground(VERY_LIGHT_GRAY);
+
         
-        userScreen.add(welcomeButton1);
+        BorderLayout lay = new BorderLayout();
+        userScreen.setLayout(lay);
+
+        userScreen.add(welcomeButton1, BorderLayout.NORTH);
         
-        
-//
-//        infoScreem.add(welcomeButton2);
+
         
         GroupLayout layout2 = new GroupLayout(infoScreem);
         infoScreem.setLayout(layout2);
-        
         InfoText.setEditable(false);
         
         layout2.setHorizontalGroup(
@@ -165,8 +162,10 @@ public class jFrame extends JFrame{
                     .addComponent(userButton)
                     .addContainerGap(291, Short.MAX_VALUE))
             );
-        
 
+        
+        
+        
         cl.show(backPanel, "welcome");
 
         welcomeButton1.addActionListener( new ActionListener() {
@@ -206,7 +205,14 @@ public class jFrame extends JFrame{
             @Override
             public void actionPerformed( ActionEvent arg0 ) {
               if(isPasswordCorrect()) {
-              	cl.show(backPanel,"user");
+                ComHanoi panelCom = new ComHanoi(600, 400);
+                ComHanoi panelCom2 = new ComHanoi(500, 400);
+                
+
+                userScreen.add(panelCom, BorderLayout.CENTER); 
+
+                cl.show(backPanel,"user");
+
               }
               else {
             	  JOptionPane.showMessageDialog(Welcome,
