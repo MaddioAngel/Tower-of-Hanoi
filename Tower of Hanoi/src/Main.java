@@ -9,6 +9,7 @@
  * @author Iman
  */
 import javax.swing.JFrame;
+
 public class Main {
 
     /**
@@ -17,15 +18,14 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         JFrame frame = new JFrame();
-        Tower t = new Tower();
+        Tower t = new Tower(3);
         frame.setLocationRelativeTo(null);
         frame.setSize(700, 500);
         frame.setResizable(false);
         
-        
         frame.getContentPane().add(t);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
-    
 }
