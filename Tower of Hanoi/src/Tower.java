@@ -33,12 +33,12 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     static final Color lightOrange = new Color(255,153,0);
     static final Color lightBlue = new Color(51,204,255);
     static final Color lightGreen = new Color(102,255,102);
-    RoundRectangle2D.Double t;
+    RoundRectangle2D.Double t = null;
+    Color tColor = null;
     boolean diskPressed = false;
     private Double prevPointX;
     private Double prevPointY;
     public int numOfDisks;
-    Color c;
     int tx, ty;
     
     public Tower(int n) {
@@ -72,6 +72,9 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
             towerStack[0].push(rec);
             colorStack[0].push(diskColors[i]);
         }
+        t = null;
+        tColor = null;
+        repaint();
         
     }
     @Override
@@ -97,7 +100,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
 //        g1.drawLine(2*panelWidth/3, 0, panelWidth, panelHeight);
         
         g1.setStroke(new BasicStroke(1));
-        g1.setColor(c);
+        g1.setColor(tColor);
         if(diskPressed == true && t != null) {
             g1.fill(t);
         }
@@ -144,19 +147,24 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     public void mousePressed(MouseEvent me) {
         Point p = me.getPoint();
         int n = getCurrentTower(p);
-//        if (!towerStack[n].isEmpty()){
+        if (!towerStack[n].isEmpty()){
             t = towerStack[n].peek();
             if (t.contains(p)) {
                 System.out.println(n + "(before) : " +towerStack[n]);
                 t = towerStack[n].pop();
-                c = colorStack[n].pop();
+                tColor = colorStack[n].pop();
                 System.out.println(n + "(after) : " +towerStack[n]);
                 diskPressed = true;
                 prevPointX = p.getX() - t.getX();
                 prevPointY = p.getY()-t.getY();
                 tx = (int) p.getX();
                 ty = (int) p.getY();
-//        }
+        }
+        }
+        else {
+            t = null;
+            tColor = null;
+            diskPressed = false;
         }
     }
 
@@ -164,7 +172,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     public void mouseDragged(MouseEvent me) {
         double dx; //diff between previous point's x location and current point's x location
         double dy;
-        if(diskPressed) {
+        if(diskPressed && t!= null) {
             dx = me.getX()- prevPointX; 
             dy = me.getY()-prevPointY;
             t.setFrame(dx, dy, t.getWidth(),t.getHeight());
@@ -175,8 +183,20 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     @Override
     public void mouseReleased(MouseEvent me) { 
 //        RoundRectangle2D.Double t = towerStack[0].peek();
-        int n = getCurrentTower(me.getPoint());
-        double x,y;
+            
+        if(diskPressed == true && t != null) {
+            double x,y;
+            int n = getCurrentTower(me.getPoint());
+            if (n == -1) {
+            System.out.println("Wrong move");
+                n = getCurrentTower(new Point(tx, ty));
+                if(!towerStack[n].isEmpty()) {
+                    y = towerStack[n].peek().getY()-20;
+                }
+                else {
+                 y = getHeight() - 98;
+                }
+            }
         if (!towerStack[n].isEmpty()) {
             if (towerStack[n].peek().getWidth() > t.getWidth()){
                    y = towerStack[n].peek().getY()-20;
@@ -191,7 +211,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
                  y = getHeight() - 98;
                 }
             }   
-        }
+           }
         else {
             y = getHeight()-98;
         }
@@ -201,8 +221,13 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         x = x * i;
         t.setFrame(x -t.getWidth()/2,y,t.getWidth(),t.getHeight());
         towerStack[n].push(t);
-        colorStack[n].push(c);
+        colorStack[n].push(tColor);
+        
+        t = null;
+        tColor = Color.black;
+        diskPressed = false;
         repaint();
+        }
     }
 
     @Override

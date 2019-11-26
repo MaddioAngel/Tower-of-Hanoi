@@ -18,11 +18,11 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         JFrame frame = new JFrame();
-        Tower t = new Tower(3);
-        frame.setLocationRelativeTo(null);
+        Tower t = new Tower(5);
+        
         frame.setSize(700, 500);
         frame.setResizable(false);
-        
+        frame.setLocationRelativeTo(null);
         frame.getContentPane().add(t);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
