@@ -40,6 +40,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     private Double prevPointY;
     public int numOfDisks;
     int tx, ty;
+    int count;
     
     public Tower(int n) {
         init(n);
@@ -150,10 +151,10 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         if (!towerStack[n].isEmpty()){
             t = towerStack[n].peek();
             if (t.contains(p)) {
-                System.out.println(n + "(before) : " +towerStack[n]);
+//                System.out.println(n + "(before) : " +towerStack[n]);
                 t = towerStack[n].pop();
                 tColor = colorStack[n].pop();
-                System.out.println(n + "(after) : " +towerStack[n]);
+//                System.out.println(n + "(after) : " +towerStack[n]);
                 diskPressed = true;
                 prevPointX = p.getX() - t.getX();
                 prevPointY = p.getY()-t.getY();
@@ -183,12 +184,14 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     @Override
     public void mouseReleased(MouseEvent me) { 
 //        RoundRectangle2D.Double t = towerStack[0].peek();
-            
+         
         if(diskPressed == true && t != null) {
+            count++;
+            System.out.println("count: " + count);
             double x,y;
             int n = getCurrentTower(me.getPoint());
             if (n == -1) {
-            System.out.println("Wrong move");
+//            System.out.println("Wrong move");
                 n = getCurrentTower(new Point(tx, ty));
                 if(!towerStack[n].isEmpty()) {
                     y = towerStack[n].peek().getY()-20;
@@ -202,7 +205,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
                    y = towerStack[n].peek().getY()-20;
             }
             else {
-                System.out.println("Wrong move");
+//                System.out.println("Wrong move");
                 n = getCurrentTower(new Point(tx, ty));
                 if(!towerStack[n].isEmpty()) {
                     y = towerStack[n].peek().getY()-20;
@@ -215,7 +218,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         else {
             y = getHeight()-98;
         }
-        System.out.println(n + "(released): " +towerStack[n]);
+//        System.out.println(n + "(released): " +towerStack[n]);
         x = panelWidth / 6;
         int i = 2*n + 1;
         x = x * i;
@@ -227,6 +230,11 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         tColor = Color.black;
         diskPressed = false;
         repaint();
+        }
+        
+        if (towerStack[0].isEmpty() && towerStack[1].isEmpty()) {
+            System.out.println("You won");
+            
         }
     }
 
