@@ -97,7 +97,10 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
 //        g1.drawLine(2*panelWidth/3, 0, panelWidth, panelHeight);
         
         g1.setStroke(new BasicStroke(1));
-        
+        g1.setColor(c);
+        if(diskPressed == true && t != null) {
+            g1.fill(t);
+        }
         drawTower(g1,0);
         drawTower(g1,1);
         drawTower(g1,2);
