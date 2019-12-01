@@ -22,17 +22,20 @@ import java.awt.Point;
 import java.awt.BasicStroke;
 import java.awt.geom.RoundRectangle2D;
 
-public class Tower extends JPanel implements MouseListener, MouseMotionListener{
+
+public class userTower extends JPanel implements MouseListener, MouseMotionListener{
     //MouseListener handles events when mouse is not in motion
     //MouseMotionListener handles events when the mouse is in motion
     private Stack<RoundRectangle2D.Double> towerStack[]= new Stack[3];
     private Stack<Color> colorStack[] = new Stack[3];
     static final int panelWidth = 700;
     static final int panelHeight = 500; 
+
     static final Color lightRed = new Color(255,102,102);
     static final Color lightOrange = new Color(255,153,0);
     static final Color lightBlue = new Color(51,204,255);
     static final Color lightGreen = new Color(102,255,102);
+
     RoundRectangle2D.Double t = null;
     Color tColor = null;
     boolean diskPressed = false;
@@ -42,7 +45,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     int tx, ty;
     int count;
     
-    public Tower(int n) {
+    public userTower(int n) {
         init(n);
         numOfDisks = n;
         setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -68,7 +71,6 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
             if(x==0)
                 x=150;
             double wr= n*25-20*i;
-//            rec.setFrame(x-wr/2,(y - 27)-i*20,wr,20);
             rec.setRoundRect(x-wr/2, (y - 27)-i*20, wr, 20, 25,25);
             towerStack[0].push(rec);
             colorStack[0].push(diskColors[i]);
@@ -78,6 +80,13 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         repaint();
         
     }
+    public int getCount(){
+        return count;
+    }
+    private void addCount(){
+        count = count + 1;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g1 = (Graphics2D) g;
@@ -94,12 +103,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         g1.drawLine(x1, y1, x1, y2); //first pole
         g1.drawLine(x1*3, y1, x1*3, y2); //second pole
         g1.drawLine(x1*5, y1, x1*5, y2); //third pole
-        
-//        g1.setColor(lightRed);
-//        g1.drawLine(0, 0, panelWidth/3, panelHeight);
-//        g1.drawLine(panelWidth/3, 0, 2*panelWidth/3, panelHeight);
-//        g1.drawLine(2*panelWidth/3, 0, panelWidth, panelHeight);
-        
+
         g1.setStroke(new BasicStroke(1));
         g1.setColor(tColor);
         if(diskPressed == true && t != null) {
@@ -115,7 +119,6 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
             for (int i = 0; i < towerStack[n].size();i++) {
                 g2.setColor(colorStack[n].get(i));
                 g2.fill(towerStack[n].get(i));
-//                g2.draw(towerStack[n].get(i));
             }
         }
     }
@@ -183,12 +186,12 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     
     @Override
     public void mouseReleased(MouseEvent me) { 
+        int bottom = panelHeight-127;
 //        RoundRectangle2D.Double t = towerStack[0].peek();
-         
         if(diskPressed == true && t != null) {
-            count++;
-            System.out.println("count: " + count);
+            addCount();
             double x,y;
+
             int n = getCurrentTower(me.getPoint());
             if (n == -1) {
 //            System.out.println("Wrong move");
@@ -197,7 +200,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
                     y = towerStack[n].peek().getY()-20;
                 }
                 else {
-                 y = panelHeight - 127;
+                 y = bottom;
                 }
             }
         if (!towerStack[n].isEmpty()) {
@@ -211,12 +214,12 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
                     y = towerStack[n].peek().getY()-20;
                 }
                 else {
-                 y = panelHeight - 127;
+                 y = bottom;
                 }
             }   
            }
         else {
-            y = panelHeight - 127;
+            y =  bottom;
         }
 //        System.out.println(n + "(released): " +towerStack[n]);
         x = panelWidth / 6;
@@ -232,10 +235,13 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         repaint();
         }
         
-        if (towerStack[0].isEmpty() && towerStack[1].isEmpty()) {
+        if (checkWin()) {
             System.out.println("You won");
             
         }
+    }
+    public boolean checkWin(){
+        return (towerStack[0].isEmpty() && towerStack[1].isEmpty());
     }
 
     @Override
@@ -249,5 +255,6 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     @Override
     public void mouseMoved(MouseEvent me) {
     }
+    
 
 }

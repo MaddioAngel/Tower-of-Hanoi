@@ -1,11 +1,12 @@
 
 import java.awt.*;
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
+import java.util.Random;
 
 public class jFrame extends JFrame{
     private JPanel backPanel = new JPanel();
@@ -13,221 +14,255 @@ public class jFrame extends JFrame{
     private JPanel userScreen = new JPanel();
     private JPanel Welcome = new JPanel();
     private JPanel HistoryScreen = new JPanel();
-    
-    private JLabel welcomeLabel = new JLabel("WELCOME");
-    private JButton welcomeButton1 = new JButton("Switch to Welcome");
-    private JButton welcomeButton2 = new JButton("Switch to Welcome");
-    private JButton welcomeButton3 = new JButton("Switch to Welcome");
-    
-    private JLabel logInUserLabel = new JLabel("User:");
-    private JFormattedTextField logInUserField = new JFormattedTextField();
-    private JLabel logInPasswordLabel = new JLabel("Password:");
-    private JPasswordField logInPasswordField = new JPasswordField();
-    
-    private JButton infoButton = new JButton("INFO");
+    private JPanel gameScreen = new JPanel();
+
+    private JLabel welcomeLabel = new JLabel("WELCOME to Tower Of Hanoi");
+    private JButton welcomeButton1 = new JButton("Switch to Welcome"); // User button
+    private JButton welcomeButton2 = new JButton("Switch to Welcome"); // History button
+    private JButton welcomeButton3 = new JButton("Switch to Welcome"); // Info button
+    private JButton backToOptions = new JButton("Switch back to Game Modes");
+
+    private JButton infoButton = new JButton("Info");
     private JButton historyButton = new JButton("History");
-    private JButton userButton = new JButton("Log In");
-    
-    private JTextArea HistoryText = new JTextArea("The Tower of Hanoi (also called the Tower of Brahma or Lucas' Tower and sometimes pluralized as Towers) is a mathematical game or puzzle. \nIt consists of three rods and a number of disks of different sizes, which can slide onto any rod. \nThe puzzle starts with the disks in a neat stack in ascending order of size on one rod, the smallest at the top, thus making a conical shape.\n\nThe objective of the puzzle is to move the entire stack to another rod, obeying the following simple rules:\n\nOnly one disk can be moved at a time.\nEach move consists of taking the upper disk from one of the stacks and placing it on top of another stack or on an empty rod.\nNo larger disk may be placed on top of a smaller disk.\nWith 3 disks, the puzzle can be solved in 7 moves.\n The minimal number of moves required to solve a Tower of Hanoi puzzle is 2n − 1, where n is the number of disks.\n\nThe puzzle was invented by the French mathematician Édouard Lucas in 1883. \nNumerous myths regarding the ancient and mystical nature of the puzzle popped up almost immediately. \nThese myths are recounted in The Tower of Hanoi - Myths and Maths. \n\nThere is a story about an Indian temple in Kashi Vishwanath which contains a large room with three time-worn posts in it, \nsurrounded by 64 golden disks. \nBrahmin priests, acting out the command of an ancient prophecy, \nhave been moving these disks in accordance with the immutable rules of Brahma since that time. \nThe puzzle is therefore also known as the Tower of Brahma puzzle. \nAccording to the legend, when the last move of the puzzle is completed, the world will end.\n\nIf the legend were true, and if the priests were able to move disks at a rate of one per second, \nusing the smallest number of moves it would take them 264 −\n 1 seconds or roughly 585 billion years to finish, which is about 42 times the current age of the Universe.\n\nThere are many variations on this legend. For instance, in some tellings the temple is a monastery, and the priests are monks. \nThe temple or monastery may be said to be in different parts of the world—including Hanoi, Vietnam—and may be associated with any religion. \nIn some versions other elements are introduced, such as the fact that the tower was created at the beginning of the world, \nor that the priests or monks may make only one move per day.");
-    private JTextArea InfoText = new JTextArea("Rules:\n\nMove all of the blocks to the other peg\n\n1. Only move one block at a time\n\n2. A bigger block cannot go on a ");
-    
-    
-    
-    CardLayout cl = new CardLayout();
-    
-    
-    
-    public static Color VERY_LIGHT_GRAY = new Color(204,204,204);
-    
-    public jFrame(){
-    	
+    private JButton userButton = new JButton("Start!");
+
+    private JButton normal = new JButton("Classic Mode");
+    private JButton randomMode = new JButton("Random Mode");
+    private JButton computer = new JButton("Watch the Computer");
+    private JButton comVSpLayer = new JButton("Computer vs Player");
+
+    private JLabel numBlockLabel = new JLabel("  Set the number of blocks: ");
+    private SpinnerNumberModel numOfblocksModel = new SpinnerNumberModel(1, 1, 12, 1);
+    private JSpinner numOfblocks = new JSpinner(numOfblocksModel);
+
+    // int numOfLives = 5;
+    // JLabel NumberOfLivesLabel = new JLabel(" "+ numOfLives);
+
+    private CardLayout cl = new CardLayout();
+
+    public jFrame() {
         super("Tower of Hanoi");
         backPanel.setLayout(cl);
         add(backPanel);
 
-        backPanel.add(Welcome,"welcome");
+        backPanel.add(Welcome, "welcome");
         backPanel.add(infoScreem, "info");
         backPanel.add(userScreen, "user");
-
         backPanel.add(HistoryScreen, "history");
+        backPanel.add(gameScreen, "game");
 
-        Welcome.setBackground(VERY_LIGHT_GRAY);
-        infoScreem.setBackground(VERY_LIGHT_GRAY);
-        userScreen.setBackground(VERY_LIGHT_GRAY);
-        HistoryScreen.setBackground(VERY_LIGHT_GRAY);
+        JLabel backgroundInfo = setBackgroundIH(infoScreem, "Rules.jpg");
+        backgroundInfo.add(welcomeButton3);
+        Color pink = new Color(254, 219, 222);
 
-        
-        BorderLayout lay = new BorderLayout();
-        userScreen.setLayout(lay);
+        infoScreem.setBackground(pink);
 
-        userScreen.add(welcomeButton1, BorderLayout.NORTH);
-        
+        JLabel backgroundHistory = setBackgroundIH(HistoryScreen, "History.jpg");
+        backgroundHistory.add(welcomeButton2);
+        Color white = Color.WHITE;
 
-        
-        GroupLayout layout2 = new GroupLayout(infoScreem);
-        infoScreem.setLayout(layout2);
-        InfoText.setEditable(false);
-        
-        layout2.setHorizontalGroup(
-        		layout2.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout2.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout2.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(InfoText, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
-                        .addGroup(layout2.createSequentialGroup()
-                            .addComponent(welcomeButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addContainerGap())
-            );
-        layout2.setVerticalGroup(
-        		layout2.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout2.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(welcomeButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(InfoText, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
-                    .addContainerGap())
-            );
-        
-        
-        
-        HistoryText.setEditable(false);
-        
-        GroupLayout layout1 = new GroupLayout(HistoryScreen);
-        HistoryScreen.setLayout(layout1);
-        layout1.setHorizontalGroup(
-        		layout1.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout1.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout1.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(HistoryText, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
-                        .addGroup(layout1.createSequentialGroup()
-                            .addComponent(welcomeButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addContainerGap())
-            );
-        layout1.setVerticalGroup(
-        		layout1.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout1.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(welcomeButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(HistoryText, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
-                    .addContainerGap())
-            );
-        
-        
-        GroupLayout layout = new GroupLayout(Welcome);
-        Welcome.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(244, 244, 244)
-                    .addComponent(welcomeLabel)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
-                    .addComponent(infoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(userButton, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(logInPasswordLabel)
-                                .addComponent(logInUserLabel))
-                            .addGap(70, 70, 70)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(logInUserField, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(logInPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGap(349, 349, 349))
-            );
-            layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(historyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(welcomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(infoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(89, 89, 89)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(logInUserLabel)
-                        .addComponent(logInUserField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(17, 17, 17)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(logInPasswordLabel)
-                        .addComponent(logInPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(27, 27, 27)
-                    .addComponent(userButton)
-                    .addContainerGap(291, Short.MAX_VALUE))
-            );
+        HistoryScreen.setBackground(white);
 
-        
-        
-        
+        JLabel backgroundTower = setBackgroundMain(Welcome, "Tower.png");
+        welcomeLabel.setForeground(new Color(255, 255, 255));
+
+        backgroundTower.add(welcomeLabel);
+        backgroundTower.add(userButton);
+        backgroundTower.add(historyButton);
+        backgroundTower.add(infoButton);
+
         cl.show(backPanel, "welcome");
 
-        welcomeButton1.addActionListener( new ActionListener() {
+        welcomeButton1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed( ActionEvent arg0 ) {
-              cl.show(backPanel,"welcome");
-              System.out.println("Changed");
+            public void actionPerformed(ActionEvent arg0) {
+                cl.show(backPanel, "welcome");
             }
-          } );
-        welcomeButton2.addActionListener( new ActionListener() {
+        });
+        welcomeButton2.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed( ActionEvent arg0 ) {
-              cl.show(backPanel,"welcome");
+            public void actionPerformed(ActionEvent arg0) {
+                cl.show(backPanel, "welcome");
             }
-          } );
-        
-        welcomeButton3.addActionListener( new ActionListener() {
+        });
+        welcomeButton3.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed( ActionEvent arg0 ) {
-              cl.show(backPanel,"welcome");
+            public void actionPerformed(ActionEvent arg0) {
+                cl.show(backPanel, "welcome");
             }
-          } );
+        });
 
-          infoButton.addActionListener( new ActionListener() {
+        infoButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed( ActionEvent arg0 ) {
-              cl.show(backPanel,"info");}
-          } );
-          historyButton.addActionListener( new ActionListener() {
-              @Override
-              public void actionPerformed( ActionEvent arg0 ) {
-                cl.show(backPanel,"history");}
-            } );
-          
-          //log In
-        userButton.addActionListener( new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                cl.show(backPanel, "info");
+            }
+        });
+        historyButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed( ActionEvent arg0 ) {
-              if(isPasswordCorrect()) {
-                ComHanoi panelCom = new ComHanoi(600, 400);
-                ComHanoi panelCom2 = new ComHanoi(500, 400);
+            public void actionPerformed(ActionEvent arg0) {
+                cl.show(backPanel, "history");
+            }
+        });
+
+        userButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                BorderLayout border = new BorderLayout();
+                userScreen.setLayout(border);
+                userScreen.add(welcomeButton1, border.NORTH);
+
+                Color purple = new Color(128, 0, 128);
+
+                userScreen.setBackground(purple);
+                numBlockLabel.setFont(new Font("Verdana", Font.PLAIN, 22));
+                numBlockLabel.setPreferredSize(new Dimension(250, 100));
+                numBlockLabel.setForeground(new Color(255, 255, 255));
+
+                JPanel containerSettings = new JPanel();
+                containerSettings.setBackground(purple);
+                containerSettings.setLayout(new GridLayout(1, 3));
+                containerSettings.add(numBlockLabel);
+                containerSettings.add(numOfblocks);
+
+                JPanel containerMain = new JPanel();
+                containerMain.setBackground(purple);
+                containerMain.setLayout(new GridLayout(2, 2));
+                containerMain.add(normal);
+                containerMain.add(randomMode);
+                containerMain.add(computer);
+                containerMain.add(comVSpLayer);
+
+                JPanel container = new JPanel();
+                BorderLayout border2 = new BorderLayout();
+                container.setLayout(border2);
+
+                container.add(containerMain, border2.CENTER);
+                container.add(containerSettings, border2.NORTH);
+
+                userScreen.add(container, border.CENTER);
+
+                cl.show(backPanel, "user");
+
+            }
+        });
+
+        backToOptions.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                gameScreen.removeAll();
+
+                cl.show(backPanel, "user");
+            }
+        });
+
+        normal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                BorderLayout border = new BorderLayout();
+                int num = (int) numOfblocks.getValue();
+                gameScreen.setLayout(border);
+                userTower t = new userTower(num);
+
+                gameScreen.add(backToOptions, border.NORTH);
+                cl.show(backPanel, "game");
+                JPanel gameContainer = new JPanel();
+                gameContainer.setSize(700, 500);
+                gameContainer.add(t);
+
+                gameScreen.add(gameContainer, BorderLayout.CENTER);
+
+            }
+        });
+
+        randomMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                BorderLayout border = new BorderLayout();
+                gameScreen.setLayout(border);
+                gameScreen.add(backToOptions, border.NORTH);
+
+                cl.show(backPanel, "game");
+                Random rand = new Random();
+                int randnum = 1 + rand.nextInt(12);
                 
+                userTower t = new userTower(randnum);
+        
+                JPanel gameContainer = new JPanel();
+                gameContainer.setSize(700, 500);
+                gameContainer.add(t);
+                gameScreen.add(gameContainer, border.CENTER);
+            }});
 
-                userScreen.add(panelCom, BorderLayout.CENTER); 
+        computer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                int num = (int) numOfblocks.getValue();
+                BorderLayout border = new BorderLayout();
+                gameScreen.setLayout(border);
+                gameScreen.add(backToOptions, border.NORTH);
 
-                cl.show(backPanel,"user");
+                JPanel gameContainer = new JPanel();
+                gameContainer.setSize(700, 500);
+                gameContainer.setLayout(new GridLayout(1, 2));
 
-              }
-              else {
-            	  JOptionPane.showMessageDialog(Welcome,
-            			    "Invald User name or password",
-            			    "Error",
-            			    JOptionPane.ERROR_MESSAGE);
-              }
-             }
-          } ); 
-       
+                ComHanoi t2 = new ComHanoi(num);
 
-		}
-    public boolean isPasswordCorrect() {
-    	
-    	return true;
+                gameContainer.add(t2);
+
+                gameScreen.add(gameContainer, border.CENTER);
+
+                cl.show(backPanel, "game");
+            }
+        });
+
+        comVSpLayer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                int num = (int) numOfblocks.getValue();
+                BorderLayout border = new BorderLayout();
+                gameScreen.setLayout(border);
+                gameScreen.add(backToOptions, border.NORTH);
+
+                JPanel gameContainer = new JPanel();
+                gameContainer.setSize(1400, 500);
+                gameContainer.setLayout(new GridLayout(1, 2));
+
+                userTower t = new userTower(num);
+                ComHanoi t2 = new ComHanoi(num);
+
+                gameContainer.add(t);
+                gameContainer.add(t2);
+
+                gameScreen.add(gameContainer, border.CENTER);
+
+                cl.show(backPanel, "game");
+            }
+        });
+
     }
 
+    public static JLabel setBackgroundMain(JPanel panel, String backgroundFilePath) {
+        panel.setLayout(new BorderLayout());
+        ImageIcon img = new ImageIcon(backgroundFilePath);
+        Image image = img.getImage(); // transform it
+        Image newimg = image.getScaledInstance(1400, 700, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageResized = new ImageIcon(newimg); // transform it back
+        JLabel background = new JLabel(imageResized);
+        panel.add(background);
+        background.setLayout(new FlowLayout(0));
+        return background;
+    }
+
+    public static JLabel setBackgroundIH(JPanel panel, String backgroundFilePath) {
+        panel.setLayout(new BorderLayout());
+        ImageIcon img = new ImageIcon(backgroundFilePath);
+        Image image = img.getImage(); // transform it
+        Image newimg = image.getScaledInstance(800, 800, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageResized = new ImageIcon(newimg); // transform it back
+        JLabel background = new JLabel(imageResized);
+        panel.add(background);
+        background.setLayout(new FlowLayout(0));
+        return background;
+    }
 }

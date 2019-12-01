@@ -1,32 +1,32 @@
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.undo.StateEditable;
-
 import java.util.Stack;
+
 
 public class ComHanoi extends JPanel implements  Runnable{
 	Color diskColors[] = {Color.YELLOW, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.GRAY, Color.RED, 
 	          Color.DARK_GRAY,Color.CYAN, Color.BLUE, Color.GREEN,Color.MAGENTA}; //list of colors for disks
     private static Stack<RoundRectangle2D.Double> towerStack[]= new Stack[3];
     private Stack<Color> colorOfDisk[] = new Stack[3];
-    static int panelWidth = 500;
-    static int panelHeight = 400;
-	static int numberOfBlocks = 3;
+    static int panelWidth = 700;
+    static int panelHeight = 500;
+	static int numberOfBlocks;
 	static double biggestBlock;
+	int moves;
 	Thread t = new Thread(this);
-
-	public ComHanoi(int w, int h) {
-		setLayout(null);
+	public ComHanoi(int n, int w, int h){
+		this(n);
 		panelWidth = w;
 		panelHeight = h;
-		
+	}
+
+	public ComHanoi(int n) {
 		setSize(panelWidth, panelHeight);
+		numberOfBlocks = n;
 		
         towerStack[0] = new Stack<>(); //disks at first pole
         towerStack[1] = new Stack<RoundRectangle2D.Double>(); //disks at second pole
@@ -35,7 +35,6 @@ public class ComHanoi extends JPanel implements  Runnable{
         colorOfDisk[0] = new Stack<>(); //colors of disks for first pole
         colorOfDisk[1] = new Stack<>(); //colors of disks for second pole
         colorOfDisk[2] = new Stack<>(); //colors of disks for third pole
-        
         
       for (int i = 0; i < numberOfBlocks; i++) {
           RoundRectangle2D.Double rec = new RoundRectangle2D.Double();
@@ -55,14 +54,21 @@ public class ComHanoi extends JPanel implements  Runnable{
 	  }
 	  t.start();
 	}
+	public int getMoves(){
+        return moves;
+    }
+    private void addMoves(){
+        moves = moves + 1;
+    }
 	public void towerOfHanoi(int n, Stack<RoundRectangle2D.Double> from_rod, Stack<RoundRectangle2D.Double> to_rod, Stack<RoundRectangle2D.Double> aux_rod, Stack<Color> c1, Stack<Color> c3, Stack<Color> c2 ) 
     {
-		if (n == 1) { try {t.sleep(700);
+		if (n == 1) { try {t.sleep(900);
         	if(!from_rod.isEmpty()) {
         	to_rod.add(from_rod.pop());
         	c3.push(c1.pop());
         	moveRect(to_rod);
-        	repaint();
+			repaint();
+			addMoves();
         }
         	return;
         	}
@@ -76,9 +82,6 @@ public class ComHanoi extends JPanel implements  Runnable{
             towerOfHanoi(n-1, aux_rod, to_rod, from_rod, c2, c3, c1);
             
       	}
-		if(checkForWin()) {
-        	System.out.println("Done");
-        }
         }
 	public void run() {	
 		try
@@ -111,7 +114,12 @@ public class ComHanoi extends JPanel implements  Runnable{
         
         drawTower(g1,0);
         drawTower(g1,1);
-        drawTower(g1,2);
+		drawTower(g1,2);
+
+		if(checkForWin()) {
+        	System.out.println("Done");
+		}
+	
 	}
 	public static void moveRect(Stack<RoundRectangle2D.Double> stack) {
 		int x1 = panelWidth/6;
