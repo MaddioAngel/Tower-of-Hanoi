@@ -19,8 +19,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.awt.BasicStroke;
 import java.awt.geom.RoundRectangle2D;
+import javax.swing.JComboBox;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     //MouseListener handles events when mouse is not in motion
@@ -41,16 +46,79 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     public int numOfDisks;
     int tx, ty;
     int count;
-    
+    int indexOfD;
+    int numOfD;
+    Integer[] num = new Integer[]{3,4,5,6,7,8,9,10,11,12};
+    JComboBox comboBox = new JComboBox<>(num);
+    JLabel label = new JLabel();
+    JLabel label3 = new JLabel();
+    JLabel numOfMovesValue = new JLabel("0");
+    JLabel levelValue = new JLabel("1");
+    int level = Integer.parseInt(levelValue.getText()) +2;
+    Color diskColors[] = {lightOrange, lightBlue, lightRed, lightGreen, Color.MAGENTA, Color.ORANGE, Color.GRAY, Color.RED, 
+            Color.DARK_GRAY,Color.CYAN, Color.BLUE, Color.yellow, Color.MAGENTA}; //list of colors for disks
+
     public Tower(int n) {
-        init(n);
-        numOfDisks = n;
+        setLayout(null);
+        
+        JLabel numOfMoveslbl = new JLabel("Number of moves");
+        JLabel levelbl = new JLabel("Level");
+//        JPanel p = new JPanel();
+//        p.setLayout(null);
+//	p.setBounds(0, 0,150, 150);
+//        p.setBackground(Color.DARK_GRAY);
+//        comboBox.setBounds(15,15,100,25);
+//        p.add(label);
+//        p.add(comboBox);
+//        add(p);
+//        numOfD = (Integer) comboBox.getSelectedItem();
+//        System.out.println("numOfD " + numOfD);
+
+        JPanel p = new JPanel();
+        p.setLayout(null);
+	p.setBounds(50, 50,125, 75);
+        p.setBackground(lightRed);
+        levelbl.setBounds(50,10, 100, 25);
+        levelValue.setBounds(62,35, 50, 25);
+        p.add(levelbl);
+        p.add(levelValue);
+        add(p);
+        
+        JPanel p2 = new JPanel();
+        p2.setLayout(null);
+	p2.setBounds(520, 50,125, 75);
+        p2.setBackground(lightOrange);
+        numOfMoveslbl.setBounds(10,10, 100, 25);
+        numOfMovesValue.setBounds(62,35, 50, 25);
+        p2.add(numOfMoveslbl);
+        p2.add(numOfMovesValue);
+        add(p2);
+        
         setPreferredSize(new Dimension(panelWidth, panelHeight));
+        init(n);
         addMouseListener(this);
         addMouseMotionListener(this);
-    } 
+        towerActionListener();
+    }
     
+//    public void comboIsSelected() {
+//        init(towerActionListener());
+//        
+//    }
+    public void towerActionListener() {
+    comboBox.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            JComboBox comboBox = (JComboBox) ae.getSource();
+            Integer selected = (Integer) comboBox.getSelectedItem();
+            String str =  selected.toString();
+           
+        }
+        } 
+    );
+   }
     public void init(int n) {
+       
         towerStack[0] = new Stack<>(); //disks at first pole
         towerStack[1] = new Stack<>(); //disks at second pole
         towerStack[2] = new Stack<>(); //disks at third pole
@@ -58,8 +126,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         colorStack[0] = new Stack<>(); //colors of disks for first pole
         colorStack[1] = new Stack<>(); //colors of disks for second pole
         colorStack[2] = new Stack<>(); //colors of disks for third pole
-        Color diskColors[] = {lightOrange, lightBlue, lightRed, lightGreen, Color.MAGENTA, Color.ORANGE, Color.GRAY, Color.RED, 
-            Color.DARK_GRAY,Color.CYAN, Color.BLUE, Color.yellow, Color.MAGENTA}; //list of colors for disks
+       
        
         for (int i = 0; i < n; i++) {
             RoundRectangle2D.Double rec = new RoundRectangle2D.Double();
@@ -86,7 +153,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
 
         int x1 = panelWidth/6;
         int y1 = panelHeight-100;
-        int y2 = panelHeight-375;
+        int y2 = panelHeight-350;
         g1.setColor(Color.black);
         g1.setStroke(new BasicStroke(13));
         
@@ -138,11 +205,6 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
        else 
            return -1;
     }
-//    
-    @Override
-    public void mouseClicked(MouseEvent me) {
-        
-    }
     
     @Override
     public void mousePressed(MouseEvent me) {
@@ -188,6 +250,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         if(diskPressed == true && t != null) {
             count++;
             System.out.println("count: " + count);
+            numOfMovesValue.setText(String.valueOf(count));
             double x,y;
             int n = getCurrentTower(me.getPoint());
             if (n == -1) {
@@ -234,7 +297,14 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         
         if (towerStack[0].isEmpty() && towerStack[1].isEmpty()) {
             System.out.println("You won");
-            
+            Object[] options = {"OK"};
+            String s = "You have successfully completed level " + level + "\nNext level: " + (level +1);
+            JOptionPane.showMessageDialog(this, s, "Tower of Hanoi", JOptionPane.INFORMATION_MESSAGE);
+            level++;
+            System.out.println("Level " + level);
+            levelValue.setText(Integer.toString(level-2));
+            init(level);
+            numOfMovesValue.setText("0");
         }
     }
 
@@ -249,5 +319,9 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     @Override
     public void mouseMoved(MouseEvent me) {
     }
-
+    
+    @Override
+    public void mouseClicked(MouseEvent me) {
+        
+    }
 }
