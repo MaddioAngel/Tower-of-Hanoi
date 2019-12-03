@@ -1,6 +1,6 @@
 import javax.swing.JFrame;
 
-public class Main {	
+public class StartTowerOfHanoi {	
 	  public static void main(String[] args) {
 	        jFrame frame = new jFrame();
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
