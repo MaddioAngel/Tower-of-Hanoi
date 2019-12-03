@@ -35,6 +35,10 @@ public class jFrame extends JFrame{
     private SpinnerNumberModel numOfblocksModel = new SpinnerNumberModel(1, 1, 12, 1);
     private JSpinner numOfblocks = new JSpinner(numOfblocksModel);
 
+    JPanel containerMain = new JPanel();
+    JPanel containerSettings = new JPanel();
+    JPanel container = new JPanel();
+
     // int numOfLives = 5;
     // JLabel NumberOfLivesLabel = new JLabel(" "+ numOfLives);
 
@@ -119,13 +123,7 @@ public class jFrame extends JFrame{
                 numBlockLabel.setPreferredSize(new Dimension(250, 100));
                 numBlockLabel.setForeground(new Color(255, 255, 255));
 
-                JPanel containerSettings = new JPanel();
-                containerSettings.setBackground(purple);
-                containerSettings.setLayout(new GridLayout(1, 3));
-                containerSettings.add(numBlockLabel);
-                containerSettings.add(numOfblocks);
 
-                JPanel containerMain = new JPanel();
                 containerMain.setBackground(purple);
                 containerMain.setLayout(new GridLayout(2, 2));
                 containerMain.add(normal);
@@ -133,7 +131,11 @@ public class jFrame extends JFrame{
                 containerMain.add(computer);
                 containerMain.add(comVSpLayer);
 
-                JPanel container = new JPanel();
+                containerSettings.setBackground(purple);
+                containerSettings.setLayout(new GridLayout(1, 3));
+                containerSettings.add(numBlockLabel);
+                containerSettings.add(numOfblocks);
+
                 BorderLayout border2 = new BorderLayout();
                 container.setLayout(border2);
 
