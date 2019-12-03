@@ -32,7 +32,7 @@ public class jFrame extends JFrame{
     private JButton comVSpLayer = new JButton("Computer vs Player");
 
     private JLabel numBlockLabel = new JLabel("  Set the number of blocks: ");
-    private SpinnerNumberModel numOfblocksModel = new SpinnerNumberModel(1, 1, 12, 1);
+    private SpinnerNumberModel numOfblocksModel = new SpinnerNumberModel(3, 3, 12, 1);
     private JSpinner numOfblocks = new JSpinner(numOfblocksModel);
 
     JPanel containerMain = new JPanel();

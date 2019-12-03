@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - StartTowerOfHanoi",
+            "request": "launch",
+            "mainClass": "StartTowerOfHanoi",
+            "projectName": "src_22e9c85"
+        }
+    ]
+}
