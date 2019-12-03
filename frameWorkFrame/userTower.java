@@ -235,14 +235,18 @@ public class userTower extends JPanel implements MouseListener, MouseMotionListe
         repaint();
         }
         
-        if (checkWin()) {
+        if (checkForWin()) {
             System.out.println("You won");
             
         }
     }
-    public boolean checkWin(){
-        return (towerStack[0].isEmpty() && towerStack[1].isEmpty());
-    }
+    public boolean checkForWin() {
+		boolean yesWin = false;
+		if(towerStack[0].isEmpty() &&  towerStack[1].isEmpty()) {
+			yesWin = true;
+		}
+		return yesWin;
+	}	
 
     @Override
     public void mouseEntered(MouseEvent me) {
