@@ -3,8 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
 import java.util.Random;
 
@@ -31,6 +29,7 @@ public class jFrame extends JFrame{
     private JButton randomMode = new JButton("Random Mode");
     private JButton computer = new JButton("Watch the Computer");
     private JButton comVSpLayer = new JButton("Computer vs Player");
+    private JButton practiceMode = new JButton("Practice For Minimum Mode");
 
     private JLabel numBlockLabel = new JLabel("  Set the number of blocks: ");
     private SpinnerNumberModel numOfblocksModel = new SpinnerNumberModel(3, 3, 12, 1);
@@ -39,9 +38,6 @@ public class jFrame extends JFrame{
     JPanel containerMain = new JPanel();
     JPanel containerSettings = new JPanel();
     JPanel container = new JPanel();
-
-    // int numOfLives = 5;
-    // JLabel NumberOfLivesLabel = new JLabel(" "+ numOfLives);
 
     private CardLayout cl = new CardLayout();
 
@@ -115,7 +111,7 @@ public class jFrame extends JFrame{
             public void actionPerformed(ActionEvent arg0) {
                 BorderLayout border = new BorderLayout();
                 userScreen.setLayout(border);
-                userScreen.add(welcomeButton1, border.NORTH);
+                userScreen.add(welcomeButton1, BorderLayout.NORTH);
 
                 Color purple = new Color(128, 0, 128);
 
@@ -131,6 +127,7 @@ public class jFrame extends JFrame{
                 containerMain.add(computer);
                 containerMain.add(comVSpLayer);
                 containerMain.add(minMoves);
+                containerMain.add(practiceMode);
 
 
                 containerSettings.setBackground(purple);
@@ -262,11 +259,28 @@ public class jFrame extends JFrame{
             }
 
         });
+        practiceMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {            
+                int num = 3;
+                BorderLayout border = new BorderLayout();
+                gameScreen.setLayout(border);
+                gameScreen.add(backToOptions, border.NORTH);
 
+                teachingTower t = new teachingTower(num);
+        
+                JPanel gameContainer = new JPanel();
+                gameContainer.setSize(700, 500);
+                gameContainer.add(t);
+                gameScreen.add(gameContainer, border.CENTER);
+                cl.show(backPanel, "game");
+            }
+
+        });
 
     }
 
-    public static JLabel setBackgroundMain(JPanel panel, String backgroundFilePath) {
+    private static JLabel setBackgroundMain(JPanel panel, String backgroundFilePath) {
         panel.setLayout(new BorderLayout());
         ImageIcon img = new ImageIcon(backgroundFilePath);
         Image image = img.getImage(); // transform it
@@ -278,7 +292,7 @@ public class jFrame extends JFrame{
         return background;
     }
 
-    public static JLabel setBackgroundIH(JPanel panel, String backgroundFilePath) {
+    private static JLabel setBackgroundIH(JPanel panel, String backgroundFilePath) {
         panel.setLayout(new BorderLayout());
         ImageIcon img = new ImageIcon(backgroundFilePath);
         Image image = img.getImage(); // transform it

@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class Tower extends JPanel implements MouseListener, MouseMotionListener{
+public class teachingTower extends JPanel implements MouseListener, MouseMotionListener{
     //MouseListener handles events when mouse is not in motion
     //MouseMotionListener handles events when the mouse is in motion
     private Stack<RoundRectangle2D.Double> towerStack[]= new Stack[3];
@@ -60,16 +60,16 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     Color diskColors[] = {lightOrange, lightBlue, lightRed, lightGreen, Color.MAGENTA, Color.ORANGE, Color.GRAY, Color.RED, 
             Color.DARK_GRAY,Color.CYAN, Color.BLUE, Color.yellow, Color.MAGENTA}; //list of colors for disks
 
-    public Tower(int n) {
+    public teachingTower(int n) {
         setLayout(null);
         
         JLabel numOfMoveslbl = new JLabel("Number of moves");
         JLabel levelbl = new JLabel("Level");
-        JLabel minlbl = new JLabel("Minimum number\n of moves");
+        minValue = new JLabel();
         
         JPanel p = new JPanel();
         p.setLayout(null);
-	    p.setBounds(50, 50,125, 75);
+	p.setBounds(50, 50,125, 75);
         p.setBackground(lightRed);
         levelbl.setBounds(50,10, 100, 25);
         levelValue.setBounds(62,35, 50, 25);
@@ -87,15 +87,13 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         p2.add(numOfMovesValue);
         add(p2);
         
-        JPanel p3 = new JPanel();
-        p3.setLayout(null);
-	p3.setBounds(285, 50,125, 75);
-        p3.setBackground(lightBlue);
-        minlbl.setBounds(10,10, 100, 25);
-        minValue.setBounds(62,35, 50, 25);
-        p3.add(minlbl);
-        p3.add(minValue);
-        add(p3);
+    //     JPanel p3 = new JPanel();
+    //     p3.setLayout(null);
+	// p3.setBounds(285, 50,125, 75);
+    //     p3.setBackground(lightBlue);
+    //     minValue.setBounds(62,35, 50, 25);
+    //     p3.add(minValue);
+    //     add(p3);
         
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         init(n);
@@ -297,8 +295,6 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         }
         
         if (towerStack[0].isEmpty() && towerStack[1].isEmpty()) {
-            int n = Integer.parseInt(numOfMovesValue.getText());
-            if (n == min) {
             System.out.println("You won");
             String s = "You have successfully completed level " + level + "\nNext level: " + (level +1);
             JOptionPane.showMessageDialog(this, s, "Tower of Hanoi", JOptionPane.INFORMATION_MESSAGE);
@@ -307,14 +303,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
             levelValue.setText(Integer.toString(level-2));
             init(level);
             numOfMovesValue.setText("0");
-            }
-            
-            else{
-                System.out.println("You lost");
-                String s = "You have failed to complete level " + level + " in the minimum number of moves "
-                        + "\nNumber of moves used: " + n + "\nMinumum number of moves: " + min;
-                JOptionPane.showMessageDialog(this, s, "Tower of Hanoi", JOptionPane.INFORMATION_MESSAGE);
-            }
+    
         }
     }
 
