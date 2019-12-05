@@ -27,6 +27,7 @@ public class jFrame extends JFrame{
     private JButton userButton = new JButton("Start!");
 
     private JButton normal = new JButton("Classic Mode");
+    private JButton minMoves = new JButton("Minimum number of Moves");
     private JButton randomMode = new JButton("Random Mode");
     private JButton computer = new JButton("Watch the Computer");
     private JButton comVSpLayer = new JButton("Computer vs Player");
@@ -123,13 +124,14 @@ public class jFrame extends JFrame{
                 numBlockLabel.setPreferredSize(new Dimension(250, 100));
                 numBlockLabel.setForeground(new Color(255, 255, 255));
 
-
                 containerMain.setBackground(purple);
                 containerMain.setLayout(new GridLayout(2, 2));
                 containerMain.add(normal);
                 containerMain.add(randomMode);
                 containerMain.add(computer);
                 containerMain.add(comVSpLayer);
+                containerMain.add(minMoves);
+
 
                 containerSettings.setBackground(purple);
                 containerSettings.setLayout(new GridLayout(1, 3));
@@ -241,6 +243,26 @@ public class jFrame extends JFrame{
                 cl.show(backPanel, "game");
             }
         });
+
+        minMoves.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                int num = 3;
+                BorderLayout border = new BorderLayout();
+                gameScreen.setLayout(border);
+                gameScreen.add(backToOptions, border.NORTH);
+
+                Tower t = new Tower(num);
+        
+                JPanel gameContainer = new JPanel();
+                gameContainer.setSize(700, 500);
+                gameContainer.add(t);
+                gameScreen.add(gameContainer, border.CENTER);
+                cl.show(backPanel, "game");
+            }
+
+        });
+
 
     }
 
