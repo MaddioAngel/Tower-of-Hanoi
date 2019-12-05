@@ -66,6 +66,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         JLabel numOfMoveslbl = new JLabel("Number of moves");
         JLabel levelbl = new JLabel("Level");
         JLabel minlbl = new JLabel("Minimum number\n of moves");
+        minValue = new JLabel();
         
         JPanel p = new JPanel();
         p.setLayout(null);
@@ -89,7 +90,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
         
         JPanel p3 = new JPanel();
         p3.setLayout(null);
-	p3.setBounds(285, 50,125, 75);
+	    p3.setBounds(285, 50,125, 75);
         p3.setBackground(lightBlue);
         minlbl.setBounds(10,10, 100, 25);
         minValue.setBounds(62,35, 50, 25);
