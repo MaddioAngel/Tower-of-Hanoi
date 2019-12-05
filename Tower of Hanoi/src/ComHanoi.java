@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JPanel;
+import java.awt.Dimension;
+
 import java.util.Stack;
 
 
@@ -16,6 +18,7 @@ public class ComHanoi extends JPanel implements  Runnable{
     static int panelHeight = 500;
 	static int numberOfBlocks;
 	static double biggestBlock;
+	Color purple = new Color(177, 156, 217);
 	int moves;
 	Thread t = new Thread(this);
 	public ComHanoi(int n, int w, int h){
@@ -25,7 +28,10 @@ public class ComHanoi extends JPanel implements  Runnable{
 	}
 
 	public ComHanoi(int n) {
+
 		setSize(panelWidth, panelHeight);
+		setBackground(purple);
+		setPreferredSize(new Dimension(panelWidth, panelHeight));
 		numberOfBlocks = n;
 		
         towerStack[0] = new Stack<>(); //disks at first pole
@@ -62,34 +68,34 @@ public class ComHanoi extends JPanel implements  Runnable{
     }
 	public void towerOfHanoi(int n, Stack<RoundRectangle2D.Double> from_rod, Stack<RoundRectangle2D.Double> to_rod, Stack<RoundRectangle2D.Double> aux_rod, Stack<Color> c1, Stack<Color> c3, Stack<Color> c2 ) 
     {
-		if (n == 1) { try {t.sleep(900);
+		if (n == 1) { 
+			try {t.sleep(900);
         	if(!from_rod.isEmpty()) {
         	to_rod.add(from_rod.pop());
-        	c3.push(c1.pop());
+			c3.push(c1.pop());
+			
         	moveRect(to_rod);
 			repaint();
 			addMoves();
         }
         	return;
         	}
-		
 		catch(Exception e) {}
-		
 		}
         else {
           	towerOfHanoi(n-1, from_rod, aux_rod, to_rod, c1, c2, c3);
           	towerOfHanoi(1, from_rod, to_rod, aux_rod,c1,c3,c2);
             towerOfHanoi(n-1, aux_rod, to_rod, from_rod, c2, c3, c1);
-            
       	}
         }
 	public void run() {	
 		try
         {
         towerOfHanoi(numberOfBlocks, towerStack[0], towerStack[2], towerStack[1], colorOfDisk[0], colorOfDisk[2], colorOfDisk[1]);
-        
 		}
-		catch(Exception e) {}
+		catch(Exception e) {
+
+		}
 	}
 	public void paint(Graphics g){
 		super.paint(g);

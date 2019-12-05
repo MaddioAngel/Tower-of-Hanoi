@@ -39,6 +39,8 @@ public class jFrame extends JFrame{
     JPanel containerSettings = new JPanel();
     JPanel container = new JPanel();
 
+    Color purple = new Color(177, 156, 217);
+
     private CardLayout cl = new CardLayout();
 
     public jFrame() {
@@ -113,7 +115,6 @@ public class jFrame extends JFrame{
                 userScreen.setLayout(border);
                 userScreen.add(welcomeButton1, BorderLayout.NORTH);
 
-                Color purple = new Color(128, 0, 128);
 
                 userScreen.setBackground(purple);
                 numBlockLabel.setFont(new Font("Verdana", Font.PLAIN, 22));
@@ -168,10 +169,12 @@ public class jFrame extends JFrame{
                 gameScreen.add(backToOptions, border.NORTH);
                 cl.show(backPanel, "game");
                 JPanel gameContainer = new JPanel();
+                gameContainer.setBackground(purple);
                 gameContainer.setSize(700, 500);
                 gameContainer.add(t);
 
                 gameScreen.add(gameContainer, BorderLayout.CENTER);
+                gameScreen.setBackground(purple);
 
             }
         });
@@ -191,29 +194,29 @@ public class jFrame extends JFrame{
         
                 JPanel gameContainer = new JPanel();
                 gameContainer.setSize(700, 500);
+                gameContainer.setBackground(purple);
                 gameContainer.add(t);
                 gameScreen.add(gameContainer, border.CENTER);
+                gameScreen.setBackground(purple);
             }});
 
         computer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                int num = (int) numOfblocks.getValue();
                 BorderLayout border = new BorderLayout();
+                int num = (int) numOfblocks.getValue();
                 gameScreen.setLayout(border);
+                ComHanoi t = new ComHanoi(num);
+
                 gameScreen.add(backToOptions, border.NORTH);
-
-                JPanel gameContainer = new JPanel();
-                gameContainer.setSize(700, 500);
-                gameContainer.setLayout(new GridLayout(1, 2));
-
-                ComHanoi t2 = new ComHanoi(num);
-
-                gameContainer.add(t2);
-
-                gameScreen.add(gameContainer, border.CENTER);
-
                 cl.show(backPanel, "game");
+                JPanel gameContainer = new JPanel();
+                gameContainer.setBackground(purple);
+                gameContainer.setSize(700, 500);
+                gameContainer.add(t);
+
+                gameScreen.add(gameContainer, BorderLayout.CENTER);
+                gameScreen.setBackground(purple);
             }
         });
 
@@ -226,6 +229,7 @@ public class jFrame extends JFrame{
                 gameScreen.add(backToOptions, border.NORTH);
 
                 JPanel gameContainer = new JPanel();
+               
                 gameContainer.setSize(1400, 500);
                 gameContainer.setLayout(new GridLayout(1, 2));
 
@@ -236,6 +240,9 @@ public class jFrame extends JFrame{
                 gameContainer.add(t2);
 
                 gameScreen.add(gameContainer, border.CENTER);
+
+                gameContainer.setBackground(purple);
+                gameScreen.setBackground(purple);
 
                 cl.show(backPanel, "game");
             }
@@ -249,12 +256,14 @@ public class jFrame extends JFrame{
                 gameScreen.setLayout(border);
                 gameScreen.add(backToOptions, border.NORTH);
 
-                Tower t = new Tower(num);
+                minTower t =new minTower(num);
         
                 JPanel gameContainer = new JPanel();
+                gameContainer.setBackground(purple);
                 gameContainer.setSize(700, 500);
                 gameContainer.add(t);
                 gameScreen.add(gameContainer, border.CENTER);
+                gameScreen.setBackground(purple);
                 cl.show(backPanel, "game");
             }
 
@@ -270,9 +279,11 @@ public class jFrame extends JFrame{
                 teachingTower t = new teachingTower(num);
         
                 JPanel gameContainer = new JPanel();
+                gameContainer.setBackground(purple);
                 gameContainer.setSize(700, 500);
                 gameContainer.add(t);
                 gameScreen.add(gameContainer, border.CENTER);
+                gameScreen.setBackground(purple);
                 cl.show(backPanel, "game");
             }
 

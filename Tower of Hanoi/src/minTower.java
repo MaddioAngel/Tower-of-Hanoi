@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class Tower extends JPanel implements MouseListener, MouseMotionListener{
+public class minTower extends JPanel implements MouseListener, MouseMotionListener{
     //MouseListener handles events when mouse is not in motion
     //MouseMotionListener handles events when the mouse is in motion
     private Stack<RoundRectangle2D.Double> towerStack[]= new Stack[3];
@@ -60,7 +60,7 @@ public class Tower extends JPanel implements MouseListener, MouseMotionListener{
     Color diskColors[] = {lightOrange, lightBlue, lightRed, lightGreen, Color.MAGENTA, Color.ORANGE, Color.GRAY, Color.RED, 
             Color.DARK_GRAY,Color.CYAN, Color.BLUE, Color.yellow, Color.MAGENTA}; //list of colors for disks
 
-    public Tower(int n) {
+    public minTower(int n) {
         setLayout(null);
         
         JLabel numOfMoveslbl = new JLabel("Number of moves");
